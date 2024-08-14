@@ -1,0 +1,38 @@
+<div class="register-container">
+  <div class="register-form">
+    <a class="login-link" routerLink="/login">Imate nalog?</a>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Adresa e-poste:</label>
+        <input id="email" formControlName="email" type="email" />
+      </div>
+      <div class="form-group">
+        <label for="password">Lozinka:</label>
+        <input id="password" formControlName="password" type="password" />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Ponovite lozinku:</label>
+        <input id="confirmPassword" formControlName="confirmPassword" type="password" />
+      </div>
+      <div class="form-group">
+        <label for="firstName">Ime:</label>
+        <input id="firstName" formControlName="firstName" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="lastName">Prezime:</label>
+        <input id="lastName" formControlName="lastName" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="phone">Kontakt telefon:</label>
+        <input id="phone" formControlName="phone" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="address">Adresa:</label>
+        <input id="address" formControlName="address" type="text" />
+      </div>
+      <div class="form-footer">
+        <button type="submit">Registruj se</button>
+      </div>
+    </form>
+  </div>
+</div>
