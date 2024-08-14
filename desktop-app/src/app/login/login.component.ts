@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { catchError, of } from 'rxjs';
-import { error } from 'console';
 import { NotificationService } from '../notification.service';
 
 @Component({
