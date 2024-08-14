@@ -1,0 +1,26 @@
+.slider-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.slider-wrapper {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slider-item {
+  min-width: 33.33%;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.slider-item img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.slider-caption {
+  text-align: center;
+  margin-top: 10px;
+}

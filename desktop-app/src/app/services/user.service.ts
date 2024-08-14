@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { User } from './models/user.model';
+import { User } from '../models/user.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
@@ -73,7 +73,7 @@ export class UserService {
 
   logout(): void {
     this.clearUser();
-    this.router.navigate(['/homepage']);
+    this.router.navigate(['/home']);
   }
 
 }

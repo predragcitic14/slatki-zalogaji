@@ -5,6 +5,7 @@ export interface User {
   name: string;
   lastname: string;
   phone: string;
+  type?: "common" | "worker";
   address: string;
   createdAt?: Date;
   updatedAt?: Date;

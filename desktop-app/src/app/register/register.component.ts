@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { catchError, of } from 'rxjs';
-import { NotificationService } from '../notification.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-register',

@@ -7,6 +7,7 @@ interface IUser extends Document {
   lastname: string;
   phone: string;
   address: string;
+  type: "common" | "worker"
 }
 
 const userSchema = new Schema<IUser>({
@@ -15,7 +16,8 @@ const userSchema = new Schema<IUser>({
   name: { type: String, required: true },
   lastname: { type: String, required: true },
   phone: { type: String, required: true },
-  address: { type: String, required: true }
+  address: { type: String, required: true },
+  type: { type: String, required: true }
 }, { timestamps: true });
 
 const User = model<IUser>('User', userSchema);
