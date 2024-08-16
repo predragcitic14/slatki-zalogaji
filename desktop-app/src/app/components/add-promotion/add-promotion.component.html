@@ -1,0 +1,27 @@
+<div class="container">
+  <form [formGroup]="promotionForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Naslov Promocije:</label>
+      <input type="text" id="name" formControlName="name" />
+      @if (promotionForm.get('name')?.invalid && promotionForm.get('name')?.touched) {
+        <div>
+          <small class="error">Naslov je obavezno polje.</small>
+        </div>
+      }
+    </div>
+    <div>
+      <label for="description">Opis promocije:</label>
+      <textarea id="description" formControlName="description"></textarea>
+      @if (promotionForm.get('description')?.invalid && promotionForm.get('description')?.touched) {
+        <div>
+          <small class="error">Opis je obavezno polje.</small>
+        </div>
+      }
+    </div>
+    <div>
+      <label for="image">Ucitaj sliku:</label>
+      <input type="file" id="image" (change)="onFileChange($event)" />
+    </div>
+    <button type="submit" [disabled]="promotionForm.invalid || !selectedFile">Kreiraj promociju</button>
+  </form>
+</div>

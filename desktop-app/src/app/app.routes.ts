@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 
-import { HomepageComponent } from './homepage/homepage.component';
-import { LoginComponent } from './login/login.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { RegisterComponent } from './register/register.component';
-import { UserNotificationsComponent } from './user-notifications/user-notifications.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { LoginComponent } from './components/login/login.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { RegisterComponent } from './components/register/register.component';
+import { UserNotificationsComponent } from './components/user-notifications/user-notifications.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { AddProductComponent } from './components/add-product/add-product.component';
+import { AddPromotionComponent } from './components/add-promotion/add-promotion.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent},
@@ -14,5 +16,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'forgot-password', component: ForgotPasswordComponent},
   { path: 'notifications', component: UserNotificationsComponent},
-  { path: 'profile', component: UserProfileComponent}
+  { path: 'profile', component: UserProfileComponent},
+  { path: 'add-product', component: AddProductComponent},
+  { path: 'upload-promotion', component: AddPromotionComponent}
 ];

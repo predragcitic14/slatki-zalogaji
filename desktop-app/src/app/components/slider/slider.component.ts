@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Promotion } from '../../models/promotion.model';
 
 @Component({
   selector: 'app-slider',
@@ -11,7 +12,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
   styleUrl: './slider.component.scss'
 })
 export class SliderComponent implements OnInit, OnDestroy {
-  @Input() promotions: { image: string; title: string; description: string }[] = [];
+  @Input() promotions: Promotion[] = [];
 
   currentIndex = 0;
   autoSwitchInterval: any;
@@ -27,17 +28,21 @@ export class SliderComponent implements OnInit, OnDestroy {
   }
 
   nextSlide(): void {
-    if (this.currentIndex < this.promotions.length - 3) {
-      this.currentIndex++;
+    this.currentIndex = (this.currentIndex + 1) % (this.promotions.length - 2);
+  }
+
+  prevSlide(): void {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
     } else {
-      this.currentIndex = 0;
+      this.currentIndex = this.promotions.length - 3;
     }
   }
 
   startAutoSwitch(): void {
     this.autoSwitchInterval = setInterval(() => {
       this.nextSlide();
-    }, 3000);
+    }, 5000);
   }
 }
 

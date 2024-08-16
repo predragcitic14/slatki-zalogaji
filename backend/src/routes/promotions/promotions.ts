@@ -1,11 +1,11 @@
-import { Response, Router } from 'express';
+import { Response, Router, Request } from 'express';
 import Promotion from '../../models/promotion';
 import { upload } from '../../upload';
 
 const router = Router();
 
 // Upload endpoint
-router.post('/upload-promotion', upload.single('image'), async (req: any, res: Response) => {
+router.post('/upload', upload.single('image'), async (req: any, res: Response) => {
   if (!req.file || !req.body.name || !req.body.description) {
     return res.status(400).send('Missing required fields.');
   }
@@ -26,5 +26,25 @@ router.post('/upload-promotion', upload.single('image'), async (req: any, res: R
     res.status(500).json({ message: 'Server error', error });
   }
 });
+
+// Count promotions
+router.get('/count', async (req: Request, res: Response) => {
+    try {
+        const count = await Promotion.countDocuments({});
+        res.status(200).json({ count });
+      } catch (error) {
+        res.status(500).json({ message: 'Error counting documents', error });
+      }
+})
+
+// Get all promotions
+router.get('/', async (req: Request, res: Response) => {
+    try {
+        const promotions = await Promotion.find({});
+        res.status(200).json({ promotions });
+    } catch (error) {
+        res.status(500).json({ message: 'DB Error', error});
+    }
+})
 
 export default router;

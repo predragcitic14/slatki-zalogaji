@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 
 import healthcheck from './routes/healthcheck';
 import users from './routes/users/users';
@@ -21,7 +22,11 @@ app.use(bodyParser.json());
 // Routes
 app.use('/healthcheck', healthcheck);
 app.use('/users', users);
-app.use('upload-promotion', uploadPromotion);
+app.use('/promotions', uploadPromotion);
+
+
+// Serve uploads
+app.use('/uploads', express.static(path.join('uploads')));
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/slatki-zalogaji')

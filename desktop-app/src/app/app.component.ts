@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NotificationComponent } from './notification/notification.component';
-import { HeaderComponent } from './header/header.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @Component({
   selector: 'app-root',
