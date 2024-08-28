@@ -1,0 +1,113 @@
+.cakes {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 80%;
+  height: 420px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 1px solid #B19D4E;
+}
+
+.page-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.page-container h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #B19D4E;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.page-wrapper {
+  display: flex;
+  height: 80%;
+}
+
+.page-item {
+  flex: 0 0 32.6%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-right: 10px;
+  text-align: center;
+  background-color: #B19D4E;
+  opacity: 0.7;
+  border-radius: 10px;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+.page-item img {
+  max-width: 100%;
+  max-height: 50%;
+  display: block;
+  margin: 0 auto;
+  border-radius: inherit;
+}
+
+.page-item h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: black;
+  margin: 10px 0;
+}
+
+.page-caption p {
+  color: black;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.paginator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -5px 0;
+  margin-bottom: -25px; /* Adjust this value to where you want the paginator */
+  padding-bottom: 25px; /* Add padding to increase the clickable area */
+  z-index: 10; /* Ensure the paginator is on top of other elements */
+  position: relative;
+}
+
+.paginator button {
+  background: none;
+  border: none;
+  color: #000;
+  padding: 10px 15px;
+  margin: -45px 5px;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative; /* Make sure the buttons are within the paginator's clickable area */
+  z-index: 11; /* Ensure buttons stay on top */
+  background-color: white;
+}
+
+.paginator button.active {
+  background-color: #B19D4E;
+  color: #fff;
+  font-weight: bold;
+}
+
+.paginator button:disabled {
+  background-color: #fff;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.paginator button i {
+  font-size: 18px;
+  background-color: white
+}
+
+.paginator span {
+  font-size: 16px;
+  margin: 0 5px;
+}

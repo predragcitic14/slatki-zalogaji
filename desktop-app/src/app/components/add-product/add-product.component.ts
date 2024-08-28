@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-add-product',
@@ -13,11 +14,15 @@ import { RouterModule } from '@angular/router';
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss'
 })
-export class AddProductComponent {
+export class AddProductComponent implements OnInit {
   selectedFile: File | null = null;
   productForm: FormGroup;
 
-  constructor(private productService: ProductService, private fb: FormBuilder) {
+  constructor(
+    private productService: ProductService,
+    private fb: FormBuilder,
+    private notificationService: NotificationService
+  ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -25,6 +30,10 @@ export class AddProductComponent {
       ingredients: ['', Validators.required],
       type: ['', Validators.required]
     })
+  }
+
+  ngOnInit(): void {
+    this.selectedFile = null;
   }
 
   onFileChange(event: any): void {
@@ -45,9 +54,13 @@ export class AddProductComponent {
         .subscribe({
           next: (response) => {
             console.log('Upload successful', response);
+            this.productForm.reset();
+            this.selectedFile = null;
+            this.notificationService.showMessage('success', 'Upload successfull');
           },
           error: (error) => {
             console.error('Upload error', error);
+            this.notificationService.showMessage('error', 'Upload failed');
           },
           complete: () => {
             console.log('Upload complete');

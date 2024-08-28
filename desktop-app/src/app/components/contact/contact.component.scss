@@ -1,0 +1,75 @@
+.contact-component {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #B19D4E;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 90vw;
+  height: 70vh;
+  position: absolute;
+  top: calc(22vh); /* Move down by 100px */
+  left: 4vw;
+  align-items: center; /* Center content vertically */
+  text-align: center;
+}
+
+.contact-component h2 {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  color: #B19D4E;
+  margin: 0;
+}
+
+.contact-info {
+  width: 30%;
+  height: 70%;
+  flex: 1; /* Take half of the component's width */
+  color: #000; /* Black text color */
+  font-family: 'Arial', sans-serif;
+  line-height: 1.5;
+  background-color: rgba(177, 157, 78, 0.7);
+  padding: 20px; /* Add padding for better spacing */
+  border: 2px solid #B19D4E;
+  border-radius: 10px;
+}
+
+.contact-info p {
+  margin-bottom: 15px;
+}
+
+.contact-info a {
+  color: black;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+.contact-images {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.map-image {
+  margin-top: 30px;
+  width: 100%;
+  height: 100%; /* Each image takes half of the contact-images height */
+  object-fit: cover; /* Ensure the images fit their containers without distortion */
+  border-radius: 10px;
+  border: 2px solid #B19D4E;
+}
+
+.logo-image {
+  width: 20%;
+  height: 20%; /* Each image takes half of the contact-images height */
+  object-fit: cover; /* Ensure the images fit their containers without distortion */
+}

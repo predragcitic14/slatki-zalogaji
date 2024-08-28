@@ -56,4 +56,15 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/home'])
   }
 
+  onCakes(): void {
+    this.router.navigate(['/cakes'])
+  }
+
+  onCookies(): void {
+    this.router.navigate(['/cookies'])
+  }
+
+  onContact(): void {
+    this.router.navigate(['/contact'])
+  }
 }

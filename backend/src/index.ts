@@ -6,7 +6,8 @@ import path from 'path';
 
 import healthcheck from './routes/healthcheck';
 import users from './routes/users/users';
-import uploadPromotion from './routes/promotions/promotions';
+import promotions from './routes/promotions/promotions';
+import products from './routes/products/products'
 
 const app = express();
 const port = 3000;
@@ -22,8 +23,8 @@ app.use(bodyParser.json());
 // Routes
 app.use('/healthcheck', healthcheck);
 app.use('/users', users);
-app.use('/promotions', uploadPromotion);
-
+app.use('/promotions', promotions);
+app.use('/products', products);
 
 // Serve uploads
 app.use('/uploads', express.static(path.join('uploads')));

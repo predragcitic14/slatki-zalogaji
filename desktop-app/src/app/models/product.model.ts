@@ -1,11 +1,12 @@
-export interface User {
+export interface Product {
   _id?: string;
   name: string;
   description?: string;
   price: number;
   ingredients: string;
-  picture: string;
-  type: 'cake' | 'cookie';
+  filename: string;
+  path: string;
+  type: 'torta' | 'kolac';
   createdAt?: Date;
   updatedAt?: Date;
 }

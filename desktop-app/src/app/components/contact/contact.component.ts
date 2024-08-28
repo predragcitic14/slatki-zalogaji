@@ -9,4 +9,7 @@ import { Component } from '@angular/core';
 })
 export class ContactComponent {
 
+    mailAddress = 'slatki.zalogaji@gmail.com';
+    instagramProfile = '@slatki.zalogaji';
+    tiktokProfile = 'slatki.zalogaji'
 }

@@ -17,13 +17,13 @@ export class ProductService {
   }
 
 
-  countProducts(): Observable<any> {
+  countProducts(type: string): Observable<any> {
 
-    return this.http.get(`${this.apiUrl}/count`)
+    return this.http.get(`${this.apiUrl}/count`, {params: { type }})
   }
 
-  getProducts(page: number): Observable<any> {
+  getProducts(pageNum: number, type: string): Observable<any> {
 
-    return this.http.get(this.apiUrl);
+    return this.http.get(this.apiUrl, { params: { pageNum, type }});
   }
 }

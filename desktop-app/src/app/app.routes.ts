@@ -8,6 +8,9 @@ import { UserNotificationsComponent } from './components/user-notifications/user
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { AddPromotionComponent } from './components/add-promotion/add-promotion.component';
+import { CakesComponent } from './components/cakes/cakes.component';
+import { CookiesComponent } from './components/cookies/cookies.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent},
@@ -18,5 +21,8 @@ export const routes: Routes = [
   { path: 'notifications', component: UserNotificationsComponent},
   { path: 'profile', component: UserProfileComponent},
   { path: 'add-product', component: AddProductComponent},
-  { path: 'upload-promotion', component: AddPromotionComponent}
+  { path: 'upload-promotion', component: AddPromotionComponent},
+  { path: 'cakes', component: CakesComponent},
+  { path: 'cookies', component: CookiesComponent},
+  { path: 'contact', component: ContactComponent}
 ];

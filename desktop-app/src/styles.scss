@@ -8,6 +8,8 @@ body, html {
 
 #app-root {
   height: 100%;
-  background: url('/assets/main.png') no-repeat center center fixed;
+  background: url('/assets/main.png') repeat;
   background-size: cover;
+  background-attachment: scroll;
+  background-position: center center;
 }

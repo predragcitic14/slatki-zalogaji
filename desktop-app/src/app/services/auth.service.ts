@@ -1,6 +1,7 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,10 @@ export class AuthService {
 
   constructor(private router: Router) {
     this.loggedIn = !!localStorage.getItem('user');
+  }
+
+  getCurrentUser(): User {
+    return localStorage.getItem('user') as unknown as User;
   }
 
   isAuthenticated(): boolean {

@@ -2,14 +2,14 @@
   <nav>
     <ul class="nav-left">
       <li (click)="onHomePage()">PROMOCIJE</li>
-      <li>TORTE</li>
-      <li>KOLACI</li>
+      <li (click)="onCakes()">TORTE</li>
+      <li (click)="onCookies()">KOLAČI</li>
     </ul>
     <div class="logo-container">
       <img src="assets/logo.png" (click)="onHomePage()"/>
     </div>
     <ul class="nav-right">
-      <li>KONTAKT</li>
+      <li (click)="onContact()">KONTAKT</li>
       <li><i class="fas fa-shopping-cart"></i></li>
       <li><i class="fas fa-bell" (click)="goToNotifications()"></i></li>
       <li><i class="fas fa-user" (click)="onProfile()"></i></li>
