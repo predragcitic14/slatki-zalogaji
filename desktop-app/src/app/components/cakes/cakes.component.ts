@@ -42,7 +42,6 @@ export class CakesComponent {
     this.productService.getProducts(this.pageNum, this.type).subscribe({
       next: (res) => {
         this.products = res.products;
-        console.log('Fetched ', this.products);
       },
       error: (err) => {
         console.error('Error fetching promotions', err);

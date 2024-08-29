@@ -52,6 +52,12 @@ export class LoginComponent {
     }
   }
 
+  isFormValid(): boolean {
+    return this.loginForm.get('email')?.value || this.loginForm.get('password')?.value
+      ? this.loginForm.valid
+      : false;
+  }
+
   navigateToRegister() {
     this.router.navigate(['/register']);
   }

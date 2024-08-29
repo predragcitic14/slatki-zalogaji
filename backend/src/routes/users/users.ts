@@ -2,9 +2,11 @@ import { Router, Request, Response } from 'express';
 import User from '../../models/user'; 
 import { userValidationSchema } from '../../validation-schemas/user';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { ZodError } from 'zod';
 
 const router = Router();
+const jwtSecret = 'test';
 
 router.post('/register', async (req: Request, res: Response) => {
   try {
@@ -60,14 +62,54 @@ router.post('/login', async(req: Request, res: Response) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Generate JWT or another token
-    // const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, email: user.email }, jwtSecret, { expiresIn: '1h' });
     const { password: _, __v, ...userInfo } = user;
+
+    res.cookie('authToken', token, {
+      httpOnly: true, 
+      secure: true,  
+      sameSite: 'strict', 
+      maxAge: 3600000  
+    });
 
     res.json({ user: userInfo });
   } catch (error) {
     res.status(500).json({message: 'Server error'});
   }
 })
+
+router.patch('/update/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const parsedData = userValidationSchema.partial().parse(req.body);
+    console.log(parsedData);
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (parsedData.password) {
+      const saltRounds = 10;
+      parsedData.password = await bcrypt.hash(parsedData.password, saltRounds);
+    }
+
+    console.log(parsedData);
+
+    Object.assign(user, parsedData);
+
+    await user.save();
+
+    const { password: _, __v, ...updatedUser } = user.toObject();
+
+    res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({ message: error.errors });
+    }
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 export default router;

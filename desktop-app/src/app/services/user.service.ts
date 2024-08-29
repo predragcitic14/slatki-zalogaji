@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { User } from '../models/user.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,12 @@ export class UserService {
   private isBrowser: boolean;
   private _isLoggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cookieService: CookieService
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     this._isLoggedIn.next(!!this.getCurrentUser());
   }
@@ -32,8 +38,21 @@ export class UserService {
     this.user = user;
     if (this.isBrowser) {
       localStorage.setItem('user', JSON.stringify(user));
+      this.cookieService.set('user', JSON.stringify(user), { secure: true, sameSite: 'Strict' });
       this._isLoggedIn.next(true);
     }
+  }
+
+  updateUser(user: User) : Observable<{message: string, user: User}> {
+    const payload = {
+      name: user.name,
+      lastname: user.lastname,
+      password: user.password,
+      phone: user.phone,
+      address: user.address
+    };
+
+    return this.http.patch<{ message: string; user: User }>(`${this.apiUrl}/update/${user._id}`, payload);
   }
 
   getCurrentUser(): User | null {
@@ -41,7 +60,7 @@ export class UserService {
       if (this.user) {
         return this.user;
       }
-      const userString = localStorage.getItem('user');
+      const userString = this.cookieService.get('user');
       if (userString) {
         this.user = JSON.parse(userString);
         return this.user;
@@ -53,14 +72,20 @@ export class UserService {
   clearUser() {
     this.user = null as unknown as User;
     if (this.isBrowser) {
-      localStorage.removeItem('user');
+      this.cookieService.delete('user');
       this._isLoggedIn.next(false);
     }
   }
 
   login(email: string, password: string): Observable<{user: User}> {
-    const userInfo: { email: string, password: string } = { email, password }
-    return this.http.post<{user: User}>(`${this.apiUrl}/login`, userInfo);
+    const userInfo: { email: string, password: string } = { email, password };
+    return this.http.post<{user: User}>(`${this.apiUrl}/login`, userInfo).pipe(
+      tap(response => {
+        if (this.isBrowser) {
+          this.setUser(response.user);
+        }
+      })
+    );
   }
 
   register(user: User): Observable<User> {

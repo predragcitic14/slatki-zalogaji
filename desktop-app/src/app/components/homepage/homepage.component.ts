@@ -28,7 +28,6 @@ export class HomepageComponent implements OnInit{
     this.promotionService.countPromotions().subscribe({
       next: (res) => {
         this.promotionsCount = res.count;
-        console.log('Count is ', this.promotionsCount);
       },
       error: (err) => {
         console.error('Error fetching promotions count', err);
@@ -38,7 +37,6 @@ export class HomepageComponent implements OnInit{
     this.promotionService.getAllPromotions().subscribe({
       next: (res) => {
         this.promotions = res.promotions;
-        console.log('Fetched ', this.promotions);
       },
       error: (err) => {
         console.error('Error fetching promotions', err);

@@ -2,7 +2,7 @@
   position: absolute;
   width: 95%;
   left: 2.5%;
-  height: 50px; /* Increase height if needed */
+  height: 40px; /* Increase height if needed */
   background-color: #000;
   border: 1px solid #B19D4E;
   display: flex;
@@ -30,7 +30,7 @@
     li {
       color: #B19D4E;
       margin: 0 20px;
-      font-size: 24px;
+      font-size: 20px;
       line-height: 70px;
       cursor: pointer;
     }
@@ -55,7 +55,7 @@
       color: #B19D4E;
       margin: 0 20px;
       padding-right: 15%;
-      font-size: 24px;
+      font-size: 20px;
       line-height: 70px;
       cursor: pointer;
     }
@@ -76,7 +76,7 @@
     transform: translate(-50%, -50%);
 
     .logo {
-      height: 130px;
+      height: 100px;
       width: auto;
     }
   }

@@ -1,57 +1,179 @@
-.user-profile-container {
+.register-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-.user-profile-form {
-  position: relative;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-}
-
-.login-link {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  text-decoration: none;
-  color: #007bff;
+  top: 61%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-left: 50px;
+  padding-right: 50px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  border: 1px solid #B19D4E;
+  width: 50%;
+  height: 77%;
+
+
+  h4 {
+    color: #B19D4E;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .login-link {
+    position: relative;
+    color: #B19D4E;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 80%;
+  }
+
+  .register-form {
+    background: rgba(177, 157, 78, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    height: 77%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+
+
+
+    form {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        label {
+          color: black;
+          font-size: 14px;
+          margin-right: 10px;
+          flex: 1;
+        }
+
+        input {
+          padding: 10px;
+          font-size: 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          outline: none;
+          flex: 2;
+          ::placeholder {
+            color: #999;
+          }
+        }
+      }
+
+      .form-footer {
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+          background-color: black;
+          color: #B19D4E;
+          padding: 10px 20px;
+          font-size: 14px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+
+          &:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+          }
+
+          &:hover:enabled {
+            background-color: #555;
+          }
+        }
+      }
+    }
+  }
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
 
-.form-group input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-}
 
-.form-footer {
+
+.profile-container {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 61%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-left: 50px;
+  padding-right: 50px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  border: 1px solid #B19D4E;
+  width: 50%;
+  height: 75%;
+
+  h4 {
+    color: #B19D4E;
+    text-align: center;
+    margin-bottom: 20px;
+
+  }
+
+  .profile-form {
+    background: rgba(177, 157, 78, 0.9); // #B19D4E with 90% opacity
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%; // Adjust width as needed
+    height: 70%; // Adjust height as needed
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+
+
+
+    .form-group {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+
+      span {
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+        flex: 1;
+        &:first-child {
+          flex: 1.5;
+        }
+      }
+    }
+
+    .form-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 25%;
+      margin-right: 5%;
+
+      button {
+        background-color: black;
+        color: #B19D4E;
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #555;
+        }
+      }
+    }
+  }
 }
 
-button[type="submit"] {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button[type="submit"]:hover {
-  background-color: #0056b3;
-}
