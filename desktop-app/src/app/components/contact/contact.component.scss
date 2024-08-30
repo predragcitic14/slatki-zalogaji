@@ -9,9 +9,9 @@
   width: 90vw;
   height: 70vh;
   position: absolute;
-  top: calc(22vh); /* Move down by 100px */
+  top: calc(22vh);
   left: 4vw;
-  align-items: center; /* Center content vertically */
+  align-items: center;
   text-align: center;
 }
 
@@ -28,12 +28,12 @@
 .contact-info {
   width: 30%;
   height: 70%;
-  flex: 1; /* Take half of the component's width */
-  color: #000; /* Black text color */
+  flex: 1;
+  color: #000;
   font-family: 'Arial', sans-serif;
   line-height: 1.5;
   background-color: rgba(177, 157, 78, 0.7);
-  padding: 20px; /* Add padding for better spacing */
+  padding: 20px;
   border: 2px solid #B19D4E;
   border-radius: 10px;
 }
@@ -62,14 +62,14 @@
 .map-image {
   margin-top: 30px;
   width: 100%;
-  height: 100%; /* Each image takes half of the contact-images height */
-  object-fit: cover; /* Ensure the images fit their containers without distortion */
+  height: 100%;
+  object-fit: cover;
   border-radius: 10px;
   border: 2px solid #B19D4E;
 }
 
 .logo-image {
   width: 20%;
-  height: 20%; /* Each image takes half of the contact-images height */
-  object-fit: cover; /* Ensure the images fit their containers without distortion */
+  height: 20%;
+  object-fit: cover; 
 }

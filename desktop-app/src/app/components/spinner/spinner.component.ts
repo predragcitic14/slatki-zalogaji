@@ -19,13 +19,13 @@ import { Component } from '@angular/core';
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-      z-index: 1000; /* High z-index to ensure it overlays other content */
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
     }
 
     .spinner {
-      border: 6px solid rgba(177, 157, 78, 0.3); /* Light gold border */
-      border-top: 6px solid #B19D4E; /* Solid gold border */
+      border: 6px solid rgba(177, 157, 78, 0.3);
+      border-top: 6px solid #B19D4E;
       border-radius: 50%;
       width: 60px;
       height: 60px;
