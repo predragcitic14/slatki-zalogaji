@@ -192,6 +192,21 @@ router.post('/reset-password', async (req: Request, res: Response) => {
   }
 });
 
+// Get user by ID
+router.get('/:id', async (req: Request, res: Response) => {
+  try {
+      const user = await User.findById(req.params.id);
+
+      if (!user) {
+          return res.status(404).json({ message: 'Comment not found' });
+      }
+
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(500).json({ message: 'DB Error', error });
+  }
+});
+
 
 export default router;
 

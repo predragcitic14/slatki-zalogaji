@@ -1,0 +1,87 @@
+@if (product) {
+  <div class="product-container">
+    <div class="product-column">
+      <h3>{{ product.name }}</h3>
+      <img [src]="'http://localhost:3000/uploads/' + product.filename" alt="{{ product.name }}">
+      <p class="product-price">CENA: {{ product.price }} din/kom</p>
+      <p class="product-ingredients">{{ product.ingredients }}</p>
+    </div>
+
+    <div class="product-column">
+      <h4>OPIS</h4>
+      <p class="product-description">{{ product.description }}</p>
+      <div class="quantity-controls">
+        <button (click)="decrementQuantity()">-</button>
+        <span>{{ quantity }}</span>
+        <button (click)="incrementQuantity()">+</button>
+      </div>
+      <button class="add-to-cart" (click)="addToCart()">Dodaj u korpu</button>
+    </div>
+
+    <div class="product-column">
+      <h4>Komentari</h4>
+      <div class="comments-section">
+        <div class="comment" *ngFor="let comment of comments">
+          <div class="comment-header">
+            <i class="fas fa-user-circle"></i>
+            <strong class="user-name">{{ comment.userName }}</strong>
+          </div>
+          <p class="comment-content">{{ comment.content }}</p>
+          <p class="comment-timestamp">{{ comment.createdAt | date:'dd.MM.yyyy, HH:mm' }}</p>
+        </div>
+        <div class="paginator">
+          <button (click)="prevPage()" [disabled]="pageNum === 1">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+
+          @if (shouldShowFirst()) {
+            <button (click)="goToPage(1)">1</button>
+          }
+
+          @if (shouldShowLeftEllipsis()) {
+            <button>...</button>
+          }
+
+          @for (page of pagesToShow(); track $index) {
+            <button (click)="goToPage(page)" [class.active]="page === pageNum">
+                {{ page }}
+            </button>
+          }
+
+          @if (shouldShowRightEllipsis()) {
+            <button>...</button>
+          }
+
+          @if (shouldShowLast()) {
+            <button (click)="goToPage(totalPages)">{{ totalPages }}</button>
+          }
+
+          <button (click)="nextPage()" [disabled]="pageNum === totalPages">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <form (submit)="submitComment()" #commentForm="ngForm">
+          <input
+            type="text"
+            [(ngModel)]="newComment"
+            name="comment"
+            placeholder="Unesite komentar"
+            required>
+          <button
+            type="submit"
+            class="submit-comment-button"
+            [disabled]="!newComment || !newComment.trim()"
+          >
+            Ostavi komentar
+          </button>
+        </form>
+      </div>
+
+
+    </div>
+  </div>
+}
+
+@if (loading) {
+  <app-spinner></app-spinner>
+}

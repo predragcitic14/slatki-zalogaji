@@ -12,6 +12,7 @@ import { CookiesComponent } from './components/cookies/cookies.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ShowProductComponent } from './components/show-product/show-product.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent},
@@ -27,5 +28,6 @@ export const routes: Routes = [
   { path: 'upload-promotion', component: AddPromotionComponent},
   { path: 'cakes', component: CakesComponent},
   { path: 'cookies', component: CookiesComponent},
-  { path: 'contact', component: ContactComponent}
+  { path: 'contact', component: ContactComponent},
+  { path: 'show-product/:id', component: ShowProductComponent}
 ];

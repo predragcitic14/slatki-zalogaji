@@ -30,8 +30,6 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser() as User;
 
-    console.log(this.user);
-
     this.userProfileForm = this.fb.group({
       email: [{value: this.user.email, disabled: true}, [Validators.required, Validators.email]],
       password: ['', [Validators.minLength(6)]],
