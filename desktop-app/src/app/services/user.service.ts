@@ -37,7 +37,7 @@ export class UserService {
   setUser(user: User) {
     this.user = user;
     if (this.isBrowser) {
-      localStorage.setItem('user', JSON.stringify(user));
+      // localStorage.setItem('user', JSON.stringify(user));
       this.cookieService.set('user', JSON.stringify(user), { secure: true, sameSite: 'Strict' });
       this._isLoggedIn.next(true);
     }
@@ -71,10 +71,12 @@ export class UserService {
 
   clearUser() {
     this.user = null as unknown as User;
-    if (this.isBrowser) {
-      this.cookieService.delete('user');
-      this._isLoggedIn.next(false);
-    }
+    this.cookieService.delete('user');
+    this._isLoggedIn.next(false);
+    // if (this.isBrowser) {
+    //   this.cookieService.delete('user');
+    //   this._isLoggedIn.next(false);
+    // }
   }
 
   login(email: string, password: string): Observable<{user: User}> {
@@ -99,6 +101,14 @@ export class UserService {
   logout(): void {
     this.clearUser();
     this.router.navigate(['/home']);
+  }
+
+  sendResetEmail(email: string) {
+    return this.http.post<{ success: boolean }>(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: any, newPassword: string) {
+    return this.http.post<{ success: boolean }>(`${this.apiUrl}/reset-password`, { token, newPassword });
   }
 
 }

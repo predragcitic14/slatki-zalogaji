@@ -4,10 +4,22 @@ import { userValidationSchema } from '../../validation-schemas/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { ZodError } from 'zod';
+import nodemailer from 'nodemailer';
 
 const router = Router();
 const jwtSecret = 'test';
 
+// Email transport setup
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'slatkizalogaji14@gmail.com',
+    pass: 'mdxa gfra ourv jjrq'
+  }
+});
+
+
+// REGISTER
 router.post('/register', async (req: Request, res: Response) => {
   try {
     userValidationSchema.parse(req.body);
@@ -45,6 +57,7 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
+// LOGIN
 router.post('/login', async(req: Request, res: Response) => {
 
   const { email, password } = req.body;
@@ -78,6 +91,7 @@ router.post('/login', async(req: Request, res: Response) => {
   }
 })
 
+// UPDATE USER
 router.patch('/update/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -112,4 +126,73 @@ router.patch('/update/:id', async (req: Request, res: Response) => {
   }
 });
 
+// SEND EMAIL FOR FORGOTTEN PASSWORD
+router.post('/forgot-password', async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const resetToken = jwt.sign({ id: user._id, email: user.email }, jwtSecret, { expiresIn: '1h' });
+    const encodedToken = encodeURIComponent(resetToken);
+
+    const resetUrl = `http://localhost:4200/reset-password/${encodedToken}`;
+
+    const mailOptions = {
+      from: 'Slatki Zalogaji',
+      to: user.email,
+      subject: 'Promena lozinke',
+      html: `<p>Zatrazili ste promenu lozinke. Klinkite <a href="${resetUrl}">ovde</a> da resetujete lozinku. Ovaj link istice za 1 sat.</p>`
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: 'Password reset email sent successfully', success: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+// RESET-PASSWORD
+
+router.post('/reset-password', async (req: Request, res: Response) => {
+  const { token } = req.body;
+  const { newPassword } = req.body;
+
+  console.log('TOKEN', token);
+  console.log('NEW PASS', newPassword);
+
+  try {
+    const decoded: any = jwt.verify(token, jwtSecret);
+    console.log('DECODED', decoded);
+    const user = await User.findOne({ email: decoded.email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Korisnik nije pronadjen' });
+    }
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: 'Uspesno promenjena lozinka', success: true });
+  } catch (error: any) {
+    if (error?.name === 'TokenExpiredError') {
+      return res.status(400).json({ message: 'Istekao token' });
+    }
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+
 export default router;
+
+
