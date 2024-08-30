@@ -1,0 +1,52 @@
+<div class="container">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Naziv</label>
+      <input type="text" id="name" formControlName="name" />
+      @if (productForm.get('name')?.invalid && productForm.get('name')?.touched) {
+        <div>
+          <small class="error">Naziv je obavezno polje.</small>
+        </div>
+      }
+    </div>
+    <div>
+      <label for="description">Opis:</label>
+      <textarea id="description" formControlName="description"></textarea>
+      @if (productForm.get('description')?.invalid && productForm.get('description')?.touched) {
+        <div>
+          <small class="error">Opis je obavezno polje.</small>
+        </div>
+      }
+    </div>
+    <div>
+      <label for="price">Cena</label>
+      <input type="number" id="price" formControlName="price"/>
+      @if (productForm.get('price')?.invalid && productForm.get('price')?.touched) {
+        <div>
+          <small class="error">Cena je obavezno polje.</small>
+        </div>
+      }
+    </div>
+    <div>
+      <label for="ingredients">Sastav</label>
+      <input type="text" id="ingredients" formControlName="ingredients"/>
+      @if (productForm.get('ingredients')?.invalid && productForm.get('ingredients')?.touched) {
+        <div>
+          <small class="error">Cena je obavezno polje.</small>
+        </div>
+      }
+    </div>
+    <div>
+      <label for="type">Tip proizvoda:</label>
+      <select id="type" formControlName="type">
+        <option value="torta">Torta</option>
+        <option value="kolac">Kolač</option>
+      </select>
+    </div>
+    <div>
+      <label for="image">Ucitaj sliku:</label>
+      <input type="file" id="image" (change)="onFileChange($event)" />
+    </div>
+    <button type="submit" [disabled]="productForm.invalid || !selectedFile">Dodaj proizvod</button>
+  </form>
+</div>
