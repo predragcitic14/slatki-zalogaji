@@ -32,7 +32,6 @@ export class ForgotPasswordComponent {
     if (this.isFormValid()) {
       const email = this.forgotPasswordForm.get('email')?.value;
 
-      console.log(email);
       this.userService.sendResetEmail(email).subscribe(response => {
         if (response.success) {
           this.router.navigate(['/login']);

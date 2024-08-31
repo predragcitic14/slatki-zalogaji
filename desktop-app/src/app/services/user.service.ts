@@ -73,10 +73,10 @@ export class UserService {
     this.user = null as unknown as User;
     this.cookieService.delete('user');
     this._isLoggedIn.next(false);
-    // if (this.isBrowser) {
-    //   this.cookieService.delete('user');
-    //   this._isLoggedIn.next(false);
-    // }
+    if (this.isBrowser) {
+      this.cookieService.delete('user');
+      this._isLoggedIn.next(false);
+    }
   }
 
   login(email: string, password: string): Observable<{user: User}> {

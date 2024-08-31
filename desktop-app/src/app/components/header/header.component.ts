@@ -14,6 +14,7 @@ import { CartService } from '../../services/cart.service';
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   cartItemCount: number = 0;
+  user: any;
 
   constructor(
     private cartService: CartService,
@@ -32,6 +33,9 @@ export class HeaderComponent implements OnInit {
     this.cartService.cartItems$.subscribe(items => {
       this.cartItemCount = items.length;
     });
+
+    this.user = this.userService.getCurrentUser();
+
     this.userService.isLoggedIn.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
@@ -39,10 +43,10 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.userService.logout();
+    this.cartService.clearCart();
   }
 
   goToNotifications(): void {
-    console.log('usao u funkciju');
     if(this.userService.isAuthenticated()) {
       this.router.navigate(['/notifications'])
     } else {
@@ -76,5 +80,13 @@ export class HeaderComponent implements OnInit {
 
   onShoppingCart(): void {
     this.router.navigate(['/shopping-cart'])
+  }
+
+  onAddPromotions(): void {
+    this.router.navigate(['/upload-promotion'])
+  }
+
+  onAddProducts(): void {
+    this.router.navigate(['/add-product'])
   }
 }

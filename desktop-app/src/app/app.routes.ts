@@ -14,6 +14,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ShowProductComponent } from './components/show-product/show-product.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent},
@@ -25,8 +26,8 @@ export const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'notifications', component: UserNotificationsComponent},
   { path: 'profile', component: UserProfileComponent},
-  { path: 'add-product', component: AddProductComponent},
-  { path: 'upload-promotion', component: AddPromotionComponent},
+  { path: 'add-product', component: AddProductComponent, canActivate: [AuthGuard]},
+  { path: 'upload-promotion', component: AddPromotionComponent, canActivate: [AuthGuard]},
   { path: 'cakes', component: CakesComponent},
   { path: 'cookies', component: CookiesComponent},
   { path: 'contact', component: ContactComponent},

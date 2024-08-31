@@ -19,7 +19,7 @@ export class UserProfileComponent implements OnInit {
 
   user!: User;
   userProfileForm!: FormGroup;
-  isEditing: boolean = true;
+  isEditing: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -82,7 +82,6 @@ export class UserProfileComponent implements OnInit {
       if ( this.userProfileForm.value.password) {
         updatedUserData.password = this.userProfileForm.value.password
       }
-      console.log('updatedUserData', updatedUserData);
       this.userService.updateUser(updatedUserData).subscribe({
         next: (response) => {
           this.notificationService.showMessage('success','Podaci uspesno izmenjeni');
@@ -104,8 +103,6 @@ export class UserProfileComponent implements OnInit {
           console.error('Update error:', error);
         }
       });
-
-      console.log('User updated:', this.userProfileForm.value);
 
     }
   }

@@ -67,7 +67,6 @@ export class ShowProductComponent implements OnInit {
       console.error('Product ID not found in the route.');
     }
 
-    console.log('USER',this.user);
   }
 
   startPollingComments(productId: string): void {
@@ -100,7 +99,6 @@ export class ShowProductComponent implements OnInit {
     this.productService.getComments(productId, this.pageNum).subscribe({
       next: (res) => {
         this.comments = res.comments;
-        console.log(JSON.stringify(this.comments));
         this.comments.forEach(comment => {
           this.productService.getUserById(comment.userId).subscribe({
             next: (user) => {

@@ -97,7 +97,6 @@ router.patch('/update/:id', async (req: Request, res: Response) => {
 
   try {
     const parsedData = userValidationSchema.partial().parse(req.body);
-    console.log(parsedData);
     const user = await User.findById(id);
 
     if (!user) {
@@ -108,8 +107,6 @@ router.patch('/update/:id', async (req: Request, res: Response) => {
       const saltRounds = 10;
       parsedData.password = await bcrypt.hash(parsedData.password, saltRounds);
     }
-
-    console.log(parsedData);
 
     Object.assign(user, parsedData);
 
@@ -165,12 +162,9 @@ router.post('/reset-password', async (req: Request, res: Response) => {
   const { token } = req.body;
   const { newPassword } = req.body;
 
-  console.log('TOKEN', token);
-  console.log('NEW PASS', newPassword);
 
   try {
     const decoded: any = jwt.verify(token, jwtSecret);
-    console.log('DECODED', decoded);
     const user = await User.findOne({ email: decoded.email });
 
     if (!user) {

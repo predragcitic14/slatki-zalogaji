@@ -6,8 +6,8 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class CartService {
-  private cartItems = new Map<string, { name: string, quantity: number, price: number }>();
-  private cartItemsSubject = new BehaviorSubject<Array<{ name: string, quantity: number, price: number }>>([]);
+  private cartItems = new Map<string, { productId: string, name: string, quantity: number, price: number }>();
+  private cartItemsSubject = new BehaviorSubject<Array<{ productId: string, name: string, quantity: number, price: number }>>([]);
   cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
@@ -16,34 +16,51 @@ export class CartService {
     }
   }
 
-  // Adds a product to the cart
   addToCart(productId: string, name: string, quantity: number, price: number): void {
     const existingItem = this.cartItems.get(productId);
 
     if (existingItem) {
-      // If the product is already in the cart, update its quantity
       existingItem.quantity += quantity;
     } else {
-      // Otherwise, add the product to the cart
-      this.cartItems.set(productId, { name, quantity, price });
+      this.cartItems.set(productId, { productId, name, quantity, price });
     }
 
-    // Update the cart state and save it
     this.updateCart();
   }
 
-  // Returns the total count of items in the cart
+  incrementQuantity(productId: string): void {
+    const item = this.cartItems.get(productId);
+    if (item) {
+      item.quantity++;
+      this.updateCart();
+    }
+  }
+
+  decrementQuantity(productId: string): void {
+    const item = this.cartItems.get(productId);
+    if (item) {
+      item.quantity--;
+      if (item.quantity === 0) {
+        this.cartItems.delete(productId);
+      }
+      this.updateCart();
+    }
+  }
+
+  removeItem(productId: string): void {
+    this.cartItems.delete(productId);
+    this.updateCart();
+  }
+
   getCartItemCount(): number {
     return Array.from(this.cartItems.values())
       .reduce((totalCount, item) => totalCount + item.quantity, 0);
   }
 
-  // Returns an array of cart items
-  getCartItems(): Array<{ name: string, quantity: number, price: number }> {
+  getCartItems(): Array<{ productId: string, name: string, quantity: number, price: number }> {
     return Array.from(this.cartItems.values());
   }
 
-  // Updates the cart observable and saves the state if in the browser
   private updateCart(): void {
     this.cartItemsSubject.next(this.getCartItems());
     if (isPlatformBrowser(this.platformId)) {
@@ -51,7 +68,6 @@ export class CartService {
     }
   }
 
-  // Saves the current cart state to sessionStorage
   private saveCartState(): void {
     if (isPlatformBrowser(this.platformId)) {
       const cartState = JSON.stringify(Array.from(this.cartItems.entries()));
@@ -59,14 +75,18 @@ export class CartService {
     }
   }
 
-  // Loads the cart state from sessionStorage if available
   private loadCartState(): void {
     if (isPlatformBrowser(this.platformId)) {
       const cartState = sessionStorage.getItem('cart');
       if (cartState) {
         this.cartItems = new Map(JSON.parse(cartState));
-        this.updateCart(); // Ensures the observable is updated with the loaded state
+        this.updateCart();
       }
     }
+  }
+
+  clearCart(): void {
+    this.cartItems.clear();
+    this.updateCart();
   }
 }

@@ -6,7 +6,6 @@ const router = Router();
 
 // Upload endpoint
 router.post('/upload', async (req: any, res: Response) => {
-  console.log('USO', req.body);
   if (!req.body.content || !req.body.userId || !req.body.productId) {
     return res.status(400).send('Missing required fields.');
   }

@@ -48,4 +48,13 @@ export class ProductService {
   getUserById(id: string): Observable<any> {
     return this.http.get(`${this.apiURL}/users/${id}`);
   }
+
+
+  getNotifications(userId: string, pageNum: number): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/orders`, { params: { userId, pageNum}});
+  }
+
+  countNotifications(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/orders/count`, { params: { userId }});
+  }
 }

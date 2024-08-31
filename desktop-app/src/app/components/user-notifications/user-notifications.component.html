@@ -1,1 +1,50 @@
-<p>user-notifications works!</p>
+<div class="notifications-section" *ngIf="!loading; else loadingTemplate">
+  <h2 style="color: #B19D4E;">OBAVESTENJA</h2>
+  <hr class="golden-line">
+  <div *ngIf="notifications.length > 0; else noNotifications">
+    <div class="notification" *ngFor="let notification of notifications">
+      <div class="notification-header">
+        <p class="notification-title">Porudžbina {{ getNotificationStatusText(notification.status) }}</p>
+      </div>
+      <p class="notification-message">{{ notification.message }}</p>
+      <p class="notification-message">Broj Porudzbine: {{notification._id }}</p>
+      <div class="notification-message">
+        @for (item of notification.items; track $index) {
+          <p>{{item.name}}, x{{item.quantity}}, {{item.price}}RSD</p>
+        }
+        <p> Ukupno: {{notification.totalPrice}}</p>
+      </div>
+      <p class="notification-timestamp">{{ notification.createdAt | date:'dd.MM.yyyy, HH:mm' }}</p>
+    </div>
+
+    <div class="paginator">
+      <button (click)="prevPage()" [disabled]="pageNum === 1">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <button *ngIf="shouldShowFirst()" (click)="goToPage(1)">1</button>
+
+      <button *ngIf="shouldShowLeftEllipsis()">...</button>
+
+      <button *ngFor="let page of pagesToShow()" (click)="goToPage(page)" [class.active]="page === pageNum">
+        {{ page }}
+      </button>
+
+      <button *ngIf="shouldShowRightEllipsis()">...</button>
+
+      <button *ngIf="shouldShowLast()" (click)="goToPage(totalPages)">{{ totalPages }}</button>
+
+      <button (click)="nextPage()" [disabled]="pageNum === totalPages">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <ng-template #noNotifications>
+    <p>No notifications found.</p>
+  </ng-template>
+</div>
+
+<ng-template #loadingTemplate>
+  <app-spinner></app-spinner>
+</ng-template>
