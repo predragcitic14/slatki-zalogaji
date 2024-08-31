@@ -8,6 +8,8 @@ import healthcheck from './routes/healthcheck';
 import users from './routes/users/users';
 import promotions from './routes/promotions/promotions';
 import products from './routes/products/products'
+import comments from './routes/comments/comments';
+import orders from './routes/orders/orders'
 
 const app = express();
 const port = 3000;
@@ -25,6 +27,8 @@ app.use('/healthcheck', healthcheck);
 app.use('/users', users);
 app.use('/promotions', promotions);
 app.use('/products', products);
+app.use('/comments', comments);
+app.use('/orders', orders)
 
 // Serve uploads
 app.use('/uploads', express.static(path.join('uploads')));

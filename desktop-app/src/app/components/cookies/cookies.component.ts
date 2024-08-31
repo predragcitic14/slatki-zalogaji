@@ -2,11 +2,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-cookies',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './cookies.component.html',
   styleUrl: './cookies.component.scss'
 })

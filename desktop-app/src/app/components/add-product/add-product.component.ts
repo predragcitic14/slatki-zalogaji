@@ -53,13 +53,11 @@ export class AddProductComponent implements OnInit {
       this.productService.uploadProduct(formData)
         .subscribe({
           next: (response) => {
-            console.log('Upload successful', response);
             this.productForm.reset();
             this.selectedFile = null;
             this.notificationService.showMessage('success', 'Upload successfull');
           },
           error: (error) => {
-            console.error('Upload error', error);
             this.notificationService.showMessage('error', 'Upload failed');
           },
           complete: () => {

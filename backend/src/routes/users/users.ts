@@ -97,7 +97,6 @@ router.patch('/update/:id', async (req: Request, res: Response) => {
 
   try {
     const parsedData = userValidationSchema.partial().parse(req.body);
-    console.log(parsedData);
     const user = await User.findById(id);
 
     if (!user) {
@@ -108,8 +107,6 @@ router.patch('/update/:id', async (req: Request, res: Response) => {
       const saltRounds = 10;
       parsedData.password = await bcrypt.hash(parsedData.password, saltRounds);
     }
-
-    console.log(parsedData);
 
     Object.assign(user, parsedData);
 
@@ -165,12 +162,9 @@ router.post('/reset-password', async (req: Request, res: Response) => {
   const { token } = req.body;
   const { newPassword } = req.body;
 
-  console.log('TOKEN', token);
-  console.log('NEW PASS', newPassword);
 
   try {
     const decoded: any = jwt.verify(token, jwtSecret);
-    console.log('DECODED', decoded);
     const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
@@ -189,6 +183,21 @@ router.post('/reset-password', async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Istekao token' });
     }
     res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+// Get user by ID
+router.get('/:id', async (req: Request, res: Response) => {
+  try {
+      const user = await User.findById(req.params.id);
+
+      if (!user) {
+          return res.status(404).json({ message: 'Comment not found' });
+      }
+
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(500).json({ message: 'DB Error', error });
   }
 });
 

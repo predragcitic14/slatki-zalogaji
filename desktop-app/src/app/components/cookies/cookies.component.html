@@ -6,7 +6,10 @@
         @for (product of products; track $index) {
           <div class="page-item">
             <h3>{{ product.name }}</h3>
-            <img [src]="'http://localhost:3000/uploads/' + product.filename" alt="{{ product.name }}">
+            <a [routerLink]="['/show-product', product._id]">
+              <img [src]="'http://localhost:3000/uploads/' + product.filename" alt="{{ product.name }}">
+            </a>
+
             <div class="page-caption">
               <p>{{ product.description }}</p>
             </div>

@@ -4,6 +4,7 @@ import { PromotionService } from '../../services/promotion.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-add-promotion',
@@ -18,7 +19,11 @@ export class AddPromotionComponent {
   selectedFile: File | null = null;
   promotionForm: FormGroup;
 
-  constructor(private promotionService: PromotionService, private fb: FormBuilder) {
+  constructor(
+    private promotionService: PromotionService,
+    private fb: FormBuilder,
+    private notificationService: NotificationService
+  ) {
     this.promotionForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required]
@@ -39,10 +44,10 @@ export class AddPromotionComponent {
       this.promotionService.uploadPromotion(formData)
         .subscribe({
           next: (response) => {
-            console.log('Upload successful', response);
+            this.notificationService.showMessage('success', 'Upload uspesan')
           },
           error: (error) => {
-            console.error('Upload error', error);
+            this.notificationService.showMessage('error', 'Upload neuspesan')
           },
           complete: () => {
             console.log('Upload complete');

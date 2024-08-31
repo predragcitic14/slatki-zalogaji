@@ -12,6 +12,9 @@ import { CookiesComponent } from './components/cookies/cookies.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ShowProductComponent } from './components/show-product/show-product.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent},
@@ -23,9 +26,11 @@ export const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'notifications', component: UserNotificationsComponent},
   { path: 'profile', component: UserProfileComponent},
-  { path: 'add-product', component: AddProductComponent},
-  { path: 'upload-promotion', component: AddPromotionComponent},
+  { path: 'add-product', component: AddProductComponent, canActivate: [AuthGuard]},
+  { path: 'upload-promotion', component: AddPromotionComponent, canActivate: [AuthGuard]},
   { path: 'cakes', component: CakesComponent},
   { path: 'cookies', component: CookiesComponent},
-  { path: 'contact', component: ContactComponent}
+  { path: 'contact', component: ContactComponent},
+  { path: 'show-product/:id', component: ShowProductComponent},
+  { path: 'shopping-cart', component: ShoppingCartComponent}
 ];

@@ -71,9 +71,9 @@
   align-items: center;
   justify-content: center;
   margin: -5px 0;
-  margin-bottom: -25px; /* Adjust this value to where you want the paginator */
-  padding-bottom: 25px; /* Add padding to increase the clickable area */
-  z-index: 10; /* Ensure the paginator is on top of other elements */
+  margin-bottom: -25px;
+  padding-bottom: 25px;
+  z-index: 10;
   position: relative;
 }
 
@@ -85,8 +85,8 @@
   margin: -45px 5px;
   font-size: 16px;
   cursor: pointer;
-  position: relative; /* Make sure the buttons are within the paginator's clickable area */
-  z-index: 11; /* Ensure buttons stay on top */
+  position: relative;
+  z-index: 11;
   background-color: white;
 }
 
@@ -110,4 +110,20 @@
 .paginator span {
   font-size: 16px;
   margin: 0 5px;
+}
+
+.page-item h3 a.product-link {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.page-item h3 a.product-link:visited {
+  color: black;
+}
+
+.page-item h3 a.product-link:hover {
+  text-decoration: underline;
+  color: black; 
 }

@@ -1,0 +1,230 @@
+.product-container {
+  position: absolute;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 1px solid #B19D4E;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-bottom: 40px;
+  height: auto;
+}
+
+.product-column {
+  flex: 1;
+  padding: 20px;
+  color: #B19D4E;
+  box-sizing: border-box;
+}
+
+.product-column h3 {
+  font-size: 1.8em;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.product-column h4 {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.product-column img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  margin: 10px auto;
+}
+
+.product-price {
+  color: #B19D4E;
+  font-size: 1.2em;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.product-ingredients {
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+  color: #B19D4E;
+  text-align: center;
+}
+
+.product-description {
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  color: #B19D4E;
+}
+
+.product-description h4 {
+  margin-bottom: 10px;
+  color: #B19D4E;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.quantity-controls button {
+  background-color: #B19D4E;
+  color: black;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.quantity-controls span {
+  margin: 0 20px;
+  font-size: 1.5em;
+}
+
+.add-to-cart {
+  display: block;
+  width: 50%;
+  margin: 20px auto 0;
+  padding: 10px;
+  background-color: black;
+  color: #B19D4E;
+  border: 1px solid #B19D4E;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1em;
+  border-radius: 5px;
+}
+
+.comments-section {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #B19D4E;
+}
+
+.comment {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #B19D4E;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.comment-header i {
+  font-size: 1.5em;
+  color: #B19D4E;
+  margin-right: 10px;
+}
+
+.user-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #B19D4E;
+}
+
+.comment-content {
+  margin: 5px 0;
+  font-size: 1em;
+  color: #B19D4E;
+}
+
+.comment-timestamp {
+  font-size: 0.9em;
+  color: #b0b0b0;
+}
+
+
+.comments-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.comments-section form input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #B19D4E;
+  border-radius: 5px;
+  color: black;
+  background-color: #fff;
+}
+
+.comments-section form button {
+  display: block;
+  width: 50%;
+  margin: 20px auto 0;
+  padding: 10px;
+  background-color: #B19D4E;
+  color: black;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1em;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.comments-section form button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.comments-section form button:not(:disabled):hover {
+  background-color: #9b8b3e;
+  color: #fff;
+}
+
+.paginator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.paginator button {
+  background-color: white;
+  border: 1px solid #B19D4E;
+  color: #000;
+  padding: 5px 10px;
+  margin: 0 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
+}
+
+.paginator button.active {
+  background-color: #B19D4E;
+  color: #fff;
+}
+
+.paginator button:disabled {
+  background-color: #fff;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.paginator button i {
+  font-size: 1.2em;
+}
+
+

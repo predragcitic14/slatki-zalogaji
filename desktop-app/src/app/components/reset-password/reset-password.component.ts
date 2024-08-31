@@ -31,7 +31,6 @@ export class ResetPasswordComponent implements OnInit{
 
   ngOnInit(): void {
     this.token = decodeURIComponent(this.route.snapshot.paramMap.get('token') || '');
-    console.log(this.token);
   }
 
   passwordMatchValidator(formGroup: FormGroup) {

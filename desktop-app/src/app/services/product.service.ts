@@ -7,23 +7,54 @@ import { Observable } from 'rxjs';
 })
 export class ProductService {
 
-  private apiUrl = 'http://localhost:3000/products';
+  private apiURL = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
   uploadProduct(formData: FormData): Observable<any> {
 
-    return this.http.post(`${this.apiUrl}/upload`, formData);
+    return this.http.post(`/products/upload`, formData);
   }
 
 
   countProducts(type: string): Observable<any> {
 
-    return this.http.get(`${this.apiUrl}/count`, {params: { type }})
+    return this.http.get(`${this.apiURL}/products/count`, {params: { type }})
   }
 
   getProducts(pageNum: number, type: string): Observable<any> {
 
-    return this.http.get(this.apiUrl, { params: { pageNum, type }});
+    return this.http.get(`${this.apiURL}/products`, { params: { pageNum, type }});
+  }
+
+  getProductById(id: string): Observable<any> {
+    return this.http.get(`${this.apiURL}/products/${id}`);
+  }
+
+
+
+  getComments(productId: string, pageNum: number): Observable<any> {
+    return this.http.get(`${this.apiURL}/comments`, { params: { productId, pageNum } });
+  }
+
+  countComments(productId: string): Observable<any> {
+    return this.http.get(`${this.apiURL}/comments/count`, { params: { productId } });
+  }
+
+  addComment(comment: any): Observable<any> {
+    return this.http.post(`${this.apiURL}/comments/upload`, comment)
+  }
+
+  getUserById(id: string): Observable<any> {
+    return this.http.get(`${this.apiURL}/users/${id}`);
+  }
+
+
+  getNotifications(userId: string, pageNum: number): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/orders`, { params: { userId, pageNum}});
+  }
+
+  countNotifications(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/orders/count`, { params: { userId }});
   }
 }
