@@ -43,67 +43,51 @@ export class UserProfileComponent implements OnInit {
 
   toggleEdit(): void {
     this.isEditing = !this.isEditing;
-
-    if (this.isEditing) {
-      this.userProfileForm.reset({
-        email: this.user.email,
-        firstName: this.user.name,
-        lastName: this.user.lastname,
-        phone: this.user.phone,
-        address: this.user.address,
-        password: '',
-        confirmPassword: ''
-      });
-    } else {
-      this.userProfileForm.reset({
-        email: this.user.email,
-        firstName: this.user.name,
-        lastName: this.user.lastname,
-        phone: this.user.phone,
-        address: this.user.address,
-        password: '',
-        confirmPassword: ''
-      });
+    if (!this.isEditing) {
+      this.resetFormToUserData();
     }
+  }
+
+  resetFormToUserData(): void {
+    this.userProfileForm.reset({
+      email: this.user.email,
+      firstName: this.user.name,
+      lastName: this.user.lastname,
+      phone: this.user.phone,
+      address: this.user.address,
+      password: '',
+      confirmPassword: ''
+    });
   }
 
   onSubmit(): void {
     if (this.isEditing && this.isFormValid()) {
-      const updatedUserData : User = {
+      const updatedUserData: User = {
         _id: this.user._id,
         email: this.user.email,
         name: this.userProfileForm.value.firstName,
         lastname: this.userProfileForm.value.lastName,
         phone: this.userProfileForm.value.phone,
         address: this.userProfileForm.value.address,
-
       };
 
-      if ( this.userProfileForm.value.password) {
-        updatedUserData.password = this.userProfileForm.value.password
+      if (this.userProfileForm.value.password) {
+        updatedUserData.password = this.userProfileForm.value.password;
       }
+
       this.userService.updateUser(updatedUserData).subscribe({
         next: (response) => {
-          this.notificationService.showMessage('success','Podaci uspesno izmenjeni');
-          this.userService.setUser(response.user)
+          this.notificationService.showMessage('success', 'Podaci uspesno izmenjeni');
+          this.userService.setUser(response.user);
           this.user = response.user;
-          this.userProfileForm.patchValue({
-            firstName: this.user.name,
-            lastName: this.user.lastname,
-            phone: this.user.phone,
-            address: this.user.address,
-            password: '',
-            confirmPassword: ''
-          });
-          this.toggleEdit();
-          // this.router.navigate([this.router.url]);
+          this.resetFormToUserData();
+          this.isEditing = false;
         },
         error: (error) => {
           this.notificationService.showMessage('error', 'Greska pri menjanju podataka: ' + error.message);
           console.error('Update error:', error);
         }
       });
-
     }
   }
 

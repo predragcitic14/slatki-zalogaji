@@ -44,7 +44,9 @@ export class AddPromotionComponent {
       this.promotionService.uploadPromotion(formData)
         .subscribe({
           next: (response) => {
-            this.notificationService.showMessage('success', 'Upload uspesan')
+            this.notificationService.showMessage('success', 'Upload uspesan');
+            this.selectedFile = null;
+            this.promotionForm.reset();
           },
           error: (error) => {
             this.notificationService.showMessage('error', 'Upload neuspesan')

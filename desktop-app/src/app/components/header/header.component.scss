@@ -2,7 +2,7 @@
   position: absolute;
   width: 95%;
   left: 2.5%;
-  height: 40px; 
+  height: 40px;
   background-color: #000;
   border: 1px solid #B19D4E;
   display: flex;
@@ -26,6 +26,7 @@
     list-style-type: none;
     padding: 0%;
     margin: 0%;
+    position: relative;
 
     li {
       color: #B19D4E;
@@ -33,6 +34,7 @@
       font-size: 20px;
       line-height: 70px;
       cursor: pointer;
+      position: relative;
     }
 
     i {
@@ -41,6 +43,7 @@
       margin: 0 20px;
       cursor: pointer;
       line-height: 70px;
+      position: relative;
     }
   }
 
@@ -88,4 +91,23 @@
   .nav-right {
     z-index: 2;
   }
+}
+
+// .pending-orders-count {
+//   background-color: #dc3545; /* Red background */
+//   color: white; /* White text */
+//   border-radius: 50%;
+//   padding: 3px 8px;
+//   font-size: 0.9em;
+//   position: absolute;
+//   top: -10px;
+//   right: -10px;
+// }
+
+.cart-item-count {
+  color: red;
+  font-size: 0.9em;
+  position: absolute;
+  top: 15px;
+  right: 5px;
 }

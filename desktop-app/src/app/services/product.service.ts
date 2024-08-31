@@ -13,7 +13,7 @@ export class ProductService {
 
   uploadProduct(formData: FormData): Observable<any> {
 
-    return this.http.post(`/products/upload`, formData);
+    return this.http.post(`${this.apiURL}/products/upload`, formData);
   }
 
 
@@ -49,12 +49,35 @@ export class ProductService {
     return this.http.get(`${this.apiURL}/users/${id}`);
   }
 
+  // FOR USER AND WORKER NOTIFICATIONS
 
-  getNotifications(userId: string, pageNum: number): Observable<any> {
-    return this.http.get<any>(`${this.apiURL}/orders`, { params: { userId, pageNum}});
+  getNotifications(pageNum: number, workerId: string): Observable<any> {
+
+    return this.http.get<any>(`${this.apiURL}/orders`, { params: { pageNum, workerId }});
   }
 
   countNotifications(userId: string): Observable<any> {
     return this.http.get<any>(`${this.apiURL}/orders/count`, { params: { userId }});
+  }
+
+  countWorkerNotifications(workerId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/orders/count`, { params: { workerId }});
+  }
+
+  getOrderById(orderId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/orders/${orderId}`);
+  }
+
+  createOrder(newOrder: any): Observable<any> {
+    return this.http.post(`${this.apiURL}/orders/upload`, newOrder);
+  }
+
+  updateOrderStatus(orderId: string, status: string): Observable<any> {
+    const body = { orderId, status };
+    return this.http.patch(`${this.apiURL}/orders/update`, body)
+  }
+
+  countPendingOrders(): Observable<any> {
+    return this.http.get<any>(`${this.apiURL}/orders/count`, {params: { status: "pending"}});
   }
 }

@@ -13,7 +13,10 @@
         <li (click)="onContact()">KONTAKT</li>
         <li (click)="onShoppingCart()">
           <i class="fas fa-shopping-cart" title="View Cart"></i>
-          <span class="cart-item-count">{{ cartItemCount }}</span>
+          @if (cartItemCount > 0) {
+            <span class="cart-item-count">{{ cartItemCount }}</span>
+          }
+
         </li>
       }
       @if (user && user.type === "worker") {
@@ -26,6 +29,10 @@
       }
       <li>
         <i class="fas fa-bell" (click)="goToNotifications()" title="Obavestenja"></i>
+        @if (pendingOrdersCount > 0) {
+          <span class="cart-item-count" style="color: red;">{{ pendingOrdersCount }}</span>
+        }
+
       </li>
       <li>
         <i class="fas fa-user" (click)="onProfile()" title="Profil"></i>

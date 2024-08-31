@@ -36,26 +36,27 @@ export class LoginComponent {
       // Simulate user data. Replace this with actual authentication logic.
       // const user = { email: formValue.email, token: 'fake-jwt-token' };
 
-      const loginRes = this.userService.login(formValue.email, formValue.password).pipe(
+      this.userService.login(formValue.email, formValue.password).pipe(
         catchError(error => {
           this.notificationService.showMessage('error', 'Login error');
           return of(null);
         })
       ).subscribe(response => {
         if (response) {
-          this.userService.setUser(response.user);
           this.router.navigate(['/home']);
-          this.userService.setLoggedIn(true);
         }
       });
 
     }
   }
 
+  // isFormValid(): boolean {
+  //   return this.loginForm.get('email')?.value || this.loginForm.get('password')?.value
+  //     ? this.loginForm.valid
+  //     : false;
+  // }
   isFormValid(): boolean {
-    return this.loginForm.get('email')?.value || this.loginForm.get('password')?.value
-      ? this.loginForm.valid
-      : false;
+    return this.loginForm.valid;
   }
 
   navigateToRegister() {

@@ -7,6 +7,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { ProductService } from '../../services/product.service';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-notifications',
@@ -22,9 +23,11 @@ export class UserNotificationsComponent implements OnInit {
   notificationsPerPage: number = 5;
   totalPages: number = 1;
   pageNum: number = 1;
-  user!: User;
+  user: User | null = null;
   isLoggedIn: boolean = false;
   loading: boolean = true;
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -34,32 +37,43 @@ export class UserNotificationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.userService.getCurrentUser() as User;
-    if (this.user && isPlatformBrowser(this.platformId)) {
-      this.userService.isLoggedIn.subscribe(isLoggedIn => {
-        this.isLoggedIn = isLoggedIn;
+    if (isPlatformBrowser(this.platformId)) {
+      const userSub = this.userService.user$.subscribe(user => {
+        this.user = user;
+        this.isLoggedIn = !!user;
+        if (this.user) {
+          this.loadNotifications();
+        } else {
+          this.loading = false;
+        }
       });
-      this.loadNotifications();
+      this.subscriptions.push(userSub);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   loadNotifications(): void {
     if (!this.user || !this.user._id) {
       console.error('User is not logged in or userId is undefined');
+      this.loading = false;
       return;
     }
 
-    this.notificationService.countNotifications(this.user._id).subscribe({
+    const countSub = this.notificationService.countNotifications(this.user._id).subscribe({
       next: (res) => {
         this.notificationsCount = res.count;
         this.totalPages = Math.ceil(this.notificationsCount / this.notificationsPerPage);
       },
       error: (err) => {
         console.error('Error fetching notifications count', err);
+        this.loading = false;
       }
     });
 
-    this.notificationService.getNotifications(this.user._id, this.pageNum).subscribe({
+    const notifSub = this.notificationService.getNotifications(this.pageNum, '').subscribe({
       next: (res) => {
         this.notifications = res.orders;
         this.loading = false;
@@ -69,6 +83,8 @@ export class UserNotificationsComponent implements OnInit {
         this.loading = false;
       }
     });
+
+    this.subscriptions.push(countSub, notifSub);
   }
 
   changePage(pageNum: number): void {
@@ -138,8 +154,10 @@ export class UserNotificationsComponent implements OnInit {
         return 'obradjena';
       case 'rejected':
         return 'odbijena';
-      case 'accepted':
+      case 'approved':
         return 'prihvacena';
+      case 'finished':
+        return 'obradjena'
       default:
         return 'nepoznata';
     }

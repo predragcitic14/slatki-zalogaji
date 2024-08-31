@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -26,19 +27,20 @@ export class ShoppingCartComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private notificationService: NotificationService,
     private http: HttpClient
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.userService.isLoggedIn.subscribe(isLoggedIn => {
-        this.isLoggedIn = isLoggedIn;
-      });
-    }
-  }
+  ) {  }
 
   ngOnInit(): void {
-    this.cartService.cartItems$.subscribe(items => {
-      this.cartItems = items;
-      this.calculateTotalPrice();
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.userService.user$.subscribe(user => {
+        this.currentUser = user;
+        this.isLoggedIn = !!user;
+      });
+
+      this.cartService.cartItems$.subscribe(items => {
+        this.cartItems = items;
+        this.calculateTotalPrice();
+      });
+    }
   }
 
   incrementQuantity(productId: string): void {
@@ -67,26 +69,29 @@ export class ShoppingCartComponent implements OnInit {
   onConfirmOrder(): void {
     if(!this.isLoggedIn) {
       this.notificationService.showMessage('error', 'Niste ulogovani. Ulogujte se kako biste porucili')
+      return;
     }
-    this.currentUser = this.userService.getCurrentUser();
 
     const order = {
       userId: this.currentUser._id,
       items: this.cartItems,
-      totalPrice: this.totalPrice
+      totalPrice: this.totalPrice,
+      read: true
     }
 
     const apiUrl = 'http://localhost:3000/orders'
 
-    this.http.post(apiUrl, order).subscribe({
-      next: (response) => {
-        this.cartService.clearCart();
-        this.notificationService.showMessage('success', 'Porudzbina je uspesno poslata.')
-        this.router.navigate(['/notifications']);
-      },
-      error: (error) => {
-        this.notificationService.showMessage('error', `Greska u postavljanju narudzbine`)
+    this.http.post(apiUrl, order).pipe(
+      catchError(error => {
+        this.notificationService.showMessage('error', 'Greska u postavljanju narudzbine');
         console.error('Error placing order', error);
+        return of(null);  // Return a null observable to complete the stream
+      })
+    ).subscribe(response => {
+      if (response) {
+        this.cartService.clearCart();
+        this.notificationService.showMessage('success', 'Porudzbina je uspesno poslata.');
+        this.router.navigate(['/notifications']);
       }
     });
   }

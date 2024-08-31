@@ -12,8 +12,6 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean {
     const user = this.userService.getCurrentUser();
 
-    console.log('Jesi li to null jebem ti mater', user);
-
     if (user && user.type === 'worker') {
       return true;
     } else {

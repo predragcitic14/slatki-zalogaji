@@ -1,0 +1,64 @@
+<div class="worker-notifications-section" *ngIf="!loading; else loadingTemplate">
+  <h2 style="color: #B19D4E;">SVE PORUDŽBINE</h2>
+  <hr class="golden-line">
+  <div *ngIf="orders.length > 0; else noOrders">
+    <div class="order" *ngFor="let order of orders">
+
+      <p class="order-message">Broj Porudzbine: {{order._id }}</p>
+      <div class="order-items">
+        <div *ngFor="let item of order.items">
+          <p>{{item.name}}, x{{item.quantity}}, {{item.price}} RSD</p>
+        </div>
+        <p><strong>Ukupno: {{order.totalPrice}} RSD</strong></p>
+      </div>
+      <p class="order-timestamp">{{ order.createdAt | date:'dd.MM.yyyy, HH:mm' }}</p>
+      @if (order.status === "pending") {
+        <div class="order-actions">
+          <button (click)="changeOrderStatus(order._id, 'approved')" class="approve-btn">Odobri</button>
+          <button (click)="changeOrderStatus(order._id, 'rejected')" class="reject-btn">Odbij</button>
+        </div>
+      }
+      @else {
+        <div class="order-actions">
+          @if (order.status === "approved") {
+            <p class="approve-message">Odobreno</p>
+          }
+          @else {
+            <p class="reject-message">Odbijeno</p>
+          }
+        </div>
+      }
+
+    </div>
+
+    <div class="paginator">
+      <button (click)="prevPage()" [disabled]="pageNum === 1">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <button *ngIf="shouldShowFirst()" (click)="goToPage(1)">1</button>
+
+      <button *ngIf="shouldShowLeftEllipsis()">...</button>
+
+      <button *ngFor="let page of pagesToShow()" (click)="goToPage(page)" [class.active]="page === pageNum">
+        {{ page }}
+      </button>
+
+      <button *ngIf="shouldShowRightEllipsis()">...</button>
+
+      <button *ngIf="shouldShowLast()" (click)="goToPage(totalPages)">{{ totalPages }}</button>
+
+      <button (click)="nextPage()" [disabled]="pageNum === totalPages">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <ng-template #noOrders>
+    <p>Nema porudžbina.</p>
+  </ng-template>
+</div>
+
+<ng-template #loadingTemplate>
+  <app-spinner></app-spinner>
+</ng-template>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { User } from '../models/user.model';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class UserService {
 
+  private userSubject = new BehaviorSubject<User | null>(null);
   private user!: User;
   private apiUrl = 'http://localhost:3000/users';
   private isBrowser: boolean;
@@ -23,24 +24,54 @@ export class UserService {
     private cookieService: CookieService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    if (this.isBrowser) {
+      const user = this.getUserFromCookies();
+      if (user) {
+        this.userSubject.next(user);
+      }
+    }
     this._isLoggedIn.next(!!this.getCurrentUser());
   }
 
-  get isLoggedIn(): Observable<boolean> {
-    return this._isLoggedIn.asObservable();
+  private getUserFromCookies(): User | null {
+    if (this.isBrowser) {
+      const userString = this.cookieService.get('user');
+      if (userString) {
+        return JSON.parse(userString);
+      }
+    }
+    return null;
+  }
+
+  get user$(): Observable<User | null> {
+    return this.userSubject.asObservable();
+  }
+
+  get isLoggedIn$(): Observable<boolean> {
+    return this.userSubject.asObservable().pipe(
+      map(user => !!user)
+    );
   }
 
   setLoggedIn(isLoggedIn: boolean) {
     this._isLoggedIn.next(isLoggedIn);
   }
 
-  setUser(user: User) {
-    this.user = user;
+  private saveUserToCookies(user: User): void {
     if (this.isBrowser) {
-      // localStorage.setItem('user', JSON.stringify(user));
       this.cookieService.set('user', JSON.stringify(user), { secure: true, sameSite: 'Strict' });
-      this._isLoggedIn.next(true);
     }
+  }
+
+  private clearUserFromCookies(): void {
+    if (this.isBrowser) {
+      this.cookieService.delete('user');
+    }
+  }
+
+  setUser(user: User): void {
+    this.userSubject.next(user);
+    this.saveUserToCookies(user);
   }
 
   updateUser(user: User) : Observable<{message: string, user: User}> {
@@ -52,41 +83,23 @@ export class UserService {
       address: user.address
     };
 
-    return this.http.patch<{ message: string; user: User }>(`${this.apiUrl}/update/${user._id}`, payload);
+    return this.http.patch<{ message: string; user: User }>(`${this.apiUrl}/update/${user._id}`, payload).pipe(
+      tap(response => this.setUser(response.user))
+    );
   }
 
   getCurrentUser(): User | null {
-    if (this.isBrowser) {
-      if (this.user) {
-        return this.user;
-      }
-      const userString = this.cookieService.get('user');
-      if (userString) {
-        this.user = JSON.parse(userString);
-        return this.user;
-      }
-    }
-    return null;
+    return this.userSubject.value;
   }
 
-  clearUser() {
-    this.user = null as unknown as User;
-    this.cookieService.delete('user');
-    this._isLoggedIn.next(false);
-    if (this.isBrowser) {
-      this.cookieService.delete('user');
-      this._isLoggedIn.next(false);
-    }
+  clearUser(): void {
+    this.userSubject.next(null);
+    this.clearUserFromCookies();
   }
 
-  login(email: string, password: string): Observable<{user: User}> {
-    const userInfo: { email: string, password: string } = { email, password };
-    return this.http.post<{user: User}>(`${this.apiUrl}/login`, userInfo).pipe(
-      tap(response => {
-        if (this.isBrowser) {
-          this.setUser(response.user);
-        }
-      })
+  login(email: string, password: string): Observable<{ user: User }> {
+    return this.http.post<{ user: User }>(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap(response => this.setUser(response.user))
     );
   }
 

@@ -14,6 +14,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ShowProductComponent } from './components/show-product/show-product.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { WorkerNotificationComponent } from './components/worker-notifications/worker-notifications.component';
 import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
@@ -32,5 +33,6 @@ export const routes: Routes = [
   { path: 'cookies', component: CookiesComponent},
   { path: 'contact', component: ContactComponent},
   { path: 'show-product/:id', component: ShowProductComponent},
-  { path: 'shopping-cart', component: ShoppingCartComponent}
+  { path: 'shopping-cart', component: ShoppingCartComponent},
+  { path: 'worker-notifications', component: WorkerNotificationComponent}
 ];

@@ -29,6 +29,7 @@ export class ShowProductComponent implements OnInit {
   quantity: number = 0;
   user: User | null | undefined;
   pollingSubscription: Subscription | undefined;
+  userSubscription: Subscription | undefined;
   isLoggedIn: boolean = false;
 
   constructor(
@@ -40,34 +41,41 @@ export class ShowProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.userService.getCurrentUser() as User;
     if (isPlatformBrowser(this.platformId)) {
-      this.userService.isLoggedIn.subscribe(isLoggedIn => {
-        this.isLoggedIn = isLoggedIn;
-      });
-    }
-    const productId = this.route.snapshot.paramMap.get('id');
-    if (productId) {
-      this.productService.getProductById(productId).subscribe({
-        next: (data) => {
-          this.product = data.product;
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('Error fetching product by ID', err);
-          this.loading = false;
-        }
+      this.userSubscription = this.userService.user$.subscribe(user => {
+        this.user = user;
+        this.isLoggedIn = !!user;
       });
 
-      this.loadComments(productId);
-      if (isPlatformBrowser(this.platformId)) {
+      const productId = this.route.snapshot.paramMap.get('id');
+      if (productId) {
+        this.fetchProduct(productId);
+        this.loadComments(productId);
         this.startPollingComments(productId);
+      } else {
+        console.error('Product ID not found in the route.');
       }
-    } else {
-      console.error('Product ID not found in the route.');
     }
-
   }
+
+  ngOnDestroy(): void {
+    this.pollingSubscription?.unsubscribe();
+    this.userSubscription?.unsubscribe();
+  }
+
+  fetchProduct(productId: string): void {
+    this.productService.getProductById(productId).subscribe({
+      next: (data) => {
+        this.product = data.product;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching product by ID', err);
+        this.loading = false;
+      }
+    });
+  }
+
 
   startPollingComments(productId: string): void {
     this.pollingSubscription = interval(2000).subscribe(() => {

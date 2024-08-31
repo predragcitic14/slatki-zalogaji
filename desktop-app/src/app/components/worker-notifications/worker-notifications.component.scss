@@ -1,0 +1,177 @@
+.worker-notifications-section {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #B19D4E;
+  margin-bottom: 20px;
+  width: 90%;
+  position: absolute;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.order {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #B19D4E;
+}
+
+.order-header, .order-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.order-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #B19D4E;
+}
+
+.order-message, .order-items p {
+  margin: 5px 0;
+  font-size: 1em;
+  color: #B19D4E;
+}
+
+.order-timestamp {
+  font-size: 0.9em;
+  color: #b0b0b0;
+}
+
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.approve-btn, .reject-btn {
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.approve-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.reject-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.approve-btn:hover {
+  background-color: #218838;
+}
+
+.reject-btn:hover {
+  background-color: #c82333;
+}
+
+.paginator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.paginator button {
+  background-color: white;
+  border: 1px solid #B19D4E;
+  color: #000;
+  padding: 5px 10px;
+  margin: 0 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
+}
+
+.paginator button.active {
+  background-color: #B19D4E;
+  color: #fff;
+}
+
+.paginator button:disabled {
+  background-color: #fff;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.paginator button i {
+  font-size: 1.2em;
+}
+
+.golden-line {
+  border: 0;
+  height: 1px;
+  background-color: #B19D4E;
+  margin: 20px 0;
+}
+
+.order-actions p {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-align: center;
+  margin: 15px 0;
+  display: inline-block;
+  width: 150px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+
+.approve-message {
+  background: linear-gradient(45deg, #28a745, #34d058);
+  color: white;
+  border: 2px solid #28a745;
+}
+
+.reject-message {
+  background: linear-gradient(45deg, #dc3545, #e55353);
+  color: white;
+  border: 2px solid #dc3545;
+}
+
+.approve-btn, .reject-btn {
+  font-size: 1.2em;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  border: none;
+  width: 150px;
+  text-align: center;
+  display: inline-block;
+  margin-right: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.approve-btn {
+  background: linear-gradient(45deg, #28a745, #34d058);
+  color: white;
+}
+
+.approve-btn:hover {
+  background: linear-gradient(45deg, #218838, #28a745);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.reject-btn {
+  background: linear-gradient(45deg, #dc3545, #e55353);
+  color: white;
+}
+
+.reject-btn:hover {
+  background: linear-gradient(45deg, #c82333, #dc3545);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
