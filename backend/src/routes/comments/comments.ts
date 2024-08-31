@@ -2,22 +2,7 @@ import { Response, Router, Request } from 'express';
 import Comment from '../../models/comment';
 import { Types } from 'mongoose';
 
-const ObjectId = Types.ObjectId;
-
 const router = Router();
-
-const handleStringifiedObjectId = (req: Request, res: Response) => {
-    let query = {}
-    const { productId } = req.query
-    if (productId) {
-        if (Array.isArray(productId) || typeof productId !== 'string') {
-            return res.status(400).json({message: 'Invalid product id'});
-        }
-        const objectId = new Types.ObjectId(productId);
-        query = {productId: objectId }
-    }
-}
-
 
 // Upload endpoint
 router.post('/upload', async (req: any, res: Response) => {

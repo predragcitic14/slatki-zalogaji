@@ -1,0 +1,22 @@
+<div class="cart-container">
+  <h2>KORPA</h2>
+  <div *ngIf="cartItems.length > 0; else emptyCart">
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <div class="item-info">
+        <p><strong>{{ item.name }}</strong></p>
+        <p>Kolicina: {{ item.quantity }}</p>
+        <p>Cena: {{ item.price | currency:'RSD':'symbol':'1.2-2' }}</p>
+      </div>
+      <div class="item-total">
+        <p>Total: {{ item.quantity * item.price | currency:'RSD':'symbol':'1.2-2' }}</p>
+      </div>
+    </div>
+
+    <div class="cart-total">
+      <p><strong>Ukupno: {{ totalPrice | currency:'RSD':'symbol':'1.2-2' }}</strong></p>
+    </div>
+  </div>
+  <ng-template #emptyCart>
+    <p>Your cart is empty.</p>
+  </ng-template>
+</div>

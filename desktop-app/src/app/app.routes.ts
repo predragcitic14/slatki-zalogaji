@@ -13,6 +13,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ShowProductComponent } from './components/show-product/show-product.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent},
@@ -29,5 +30,6 @@ export const routes: Routes = [
   { path: 'cakes', component: CakesComponent},
   { path: 'cookies', component: CookiesComponent},
   { path: 'contact', component: ContactComponent},
-  { path: 'show-product/:id', component: ShowProductComponent}
+  { path: 'show-product/:id', component: ShowProductComponent},
+  { path: 'shopping-cart', component: ShoppingCartComponent}
 ];

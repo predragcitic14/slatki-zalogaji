@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
+import { interval, Subscription } from 'rxjs';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-show-product',
@@ -26,15 +28,24 @@ export class ShowProductComponent implements OnInit {
   newComment: string = '';
   quantity: number = 0;
   user: User | null | undefined;
+  pollingSubscription: Subscription | undefined;
+  isLoggedIn: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private userService: UserService
+    private userService: UserService,
+    private cartService: CartService,
+    @Inject(PLATFORM_ID) private platformId: any,
   ) {}
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser() as User;
+    if (isPlatformBrowser(this.platformId)) {
+      this.userService.isLoggedIn.subscribe(isLoggedIn => {
+        this.isLoggedIn = isLoggedIn;
+      });
+    }
     const productId = this.route.snapshot.paramMap.get('id');
     if (productId) {
       this.productService.getProductById(productId).subscribe({
@@ -49,11 +60,30 @@ export class ShowProductComponent implements OnInit {
       });
 
       this.loadComments(productId);
+      if (isPlatformBrowser(this.platformId)) {
+        this.startPollingComments(productId);
+      }
     } else {
       console.error('Product ID not found in the route.');
     }
 
     console.log('USER',this.user);
+  }
+
+  startPollingComments(productId: string): void {
+    this.pollingSubscription = interval(2000).subscribe(() => {
+      this.productService.countComments(productId).subscribe({
+        next: (res) => {
+          if (res.count !== this.commentsCount) {
+            this.commentsCount = res.count;
+            this.loadComments(productId);
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching comments count', err);
+        }
+      });
+    });
   }
 
   loadComments(productId: string): void {
@@ -192,7 +222,10 @@ export class ShowProductComponent implements OnInit {
   }
 
   addToCart(): void {
-    console.log('Product added to cart:', this.product, 'Quantity:', this.quantity);
+    if (this.product && this.quantity > 0) {
+      this.cartService.addToCart(this.product._id, this.product.name, this.quantity, this.product.price);
+      this.quantity = 0;
+    }
   }
 
 }

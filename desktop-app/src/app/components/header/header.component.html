@@ -10,7 +10,7 @@
     </div>
     <ul class="nav-right">
       <li (click)="onContact()">KONTAKT</li>
-      <li><i class="fas fa-shopping-cart"></i></li>
+      <li (click)="onShoppingCart()"><i class="fas fa-shopping-cart"></i><span class="cart-item-count">{{ cartItemCount }}</span></li>
       <li><i class="fas fa-bell" (click)="goToNotifications()"></i></li>
       <li><i class="fas fa-user" (click)="onProfile()"></i></li>
       @if (isLoggedIn) {

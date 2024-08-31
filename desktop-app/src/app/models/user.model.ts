@@ -1,5 +1,5 @@
 export interface User {
-  _id?: string;          // Optional because it might not be set when creating a new user
+  _id?: string;
   email: string;
   password?: string;
   name: string;
